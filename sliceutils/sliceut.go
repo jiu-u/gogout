@@ -130,6 +130,29 @@ func Reverse[T any](slice []T) []T {
 	return result
 }
 
+func Equals[T comparable](slice1, slice2 []T) bool {
+	// 1. 比较长度
+	if len(slice1) != len(slice2) {
+		return false
+	}
+
+	// 2. 处理 nil vs 非 nil 空切片 的情况
+	// 如果长度相同 (包括都为0), 但一个为 nil 另一个非 nil, 则它们不等
+	if (slice1 == nil) != (slice2 == nil) {
+		return false
+	}
+
+	// 3. 逐个比较元素 (如果 len(a) == 0, 这个循环不会执行)
+	for i, v := range slice1 {
+		if v != slice2[i] { // 或者 a[i] != b[i]
+			return false
+		}
+	}
+
+	// 4. 如果循环结束，说明所有元素都相等
+	return true
+}
+
 // ReverseInPlace 原地反转切片
 // 直接修改原始切片并返回它的引用
 func ReverseInPlace[T any](slice []T) []T {
